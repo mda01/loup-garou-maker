@@ -1,17 +1,19 @@
 var names, roles;
 
 $(document).ready(function () {
-    jQuery.get('participants.txt', function (data) {
-        names = data.split('\n');
+    var data = $('#participants');
+    data.change(() => {
+        console.log(data);
+        names = data[0].value.split('\n');
         for (var i = 0; i < names.length; i++) {
-            if (names[i] != '')
-                $('#participants').append('<li id="name_' + i + '">' + names[i] + '</li>');
-            else {
+            if (names[i] == '') {
                 names.splice(i, i);
                 i--;
             }
         }
-    });
+    })
+
+
     jQuery.get('roles.txt', function (data) {
         roles = data.split('\n');
         for (var i = 0; i < roles.length; i++) {
@@ -68,7 +70,7 @@ function compute_balance() {
     $('input[type=number]').each((id, r) => {
         var i = r.id.substring(5, r.id.length);
         var balance = roles[i][1] * r.value;
-        
+
         $('#val' + i).text(balance);
         if (r.value != 0) {
             $('#bal' + i).show(500);
