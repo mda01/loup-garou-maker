@@ -58,10 +58,8 @@ $('#generate').click(function () {
 function get_names() {
     names = $('#participants')[0].value.split('\n');
     var allempty = true;
-    console.log(names);
     for (var name of names){
         allempty &&= name == '';
-        console.log(name);
     }
     if (allempty) names = [];
     for (var i = 0; i < names.length; i++) {
