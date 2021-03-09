@@ -34,7 +34,7 @@ $('#generate').click(function () {
 
     if (retained_roles.length != names.length) {
         var diff = retained_roles.length - names.length;
-        var s = 'Nombre de rôles incorrect ! Il faut ' + Math.abs(diff) + ' ';
+        var s = 'Nombre de rôles incorrect ! Il en faut ' + Math.abs(diff) + ' ';
         if (diff < 0) {
             s += 'de plus !';
         } else {
@@ -57,6 +57,7 @@ $('#generate').click(function () {
 
 function get_names() {
     names = $('#participants')[0].value.split('\n');
+    if(names.length == 1 && names[0] == '') return;
     for (var i = 0; i < names.length; i++) {
         if (names[i] == '') {
             names.splice(i, i);
