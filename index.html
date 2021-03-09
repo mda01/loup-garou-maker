@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Générateur de composition pour les loups garous</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/png">
+  <title>Générateur de composition équilibrée pour les loups garous</title>
   <style>
     section {
       display: flex;
@@ -28,18 +29,49 @@
       border: 1px solid black;
       padding: 5px;
     }
+
+    label {
+      display: inline-block;
+      width: 250px;
+    }
+
+    input[type=number] {
+      width: 60px;
+    }
+
+
+
+    .red {
+      color: red;
+    }
+
+    .orange {
+      color: orange;
+    }
+
+    .green {
+      color: green;
+    }
+    
+    #div1 {
+      width: 20vw;
+    }
+    #div2 {
+      width: 40vw;
+    }
   </style>
 </head>
 
 <body>
   <h1>Générateur de composition pour les loups garous</h1>
   <section>
-    <div>
+    <div id="div1">
       <h2>Participants</h2>
       <p id="participants"></p>
     </div>
-    <div>
-      <h2 id="roles">Roles</h2>
+    <div id="div2">
+      <h2 id="roles">Rôles</h2>
+      <h3>Équilibrage : <span id="baltot"></span></h3>
       <p id="selected_roles"></p>
     </div>
   </section>
@@ -51,51 +83,7 @@
   </section>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script>
-    var names, roles;
-
-    $(document).ready(function () {
-      jQuery.get('participants.txt', function (data) {
-        names = data.split('\n');
-        for (var i = 0; i < names.length; i++) {
-          if (names[i] != '')
-            $('#participants').append('<li id="name_' + i + '">' + names[i] + '</li>');
-	  else {
-	    names.splice(i, i);
-	    i--;
-	  }
-        }
-      });
-      jQuery.get('roles.txt', function (data) {
-        roles = data.split('\n');
-        for (var i = 0; i < roles.length; i++) {
-          if (roles[i] != '')
-            $('#selected_roles').append('<input type="checkbox" id="role_' + i + '">' + roles[i] + '<br>');
-        }
-      });
-    });
-    $('#generate').click(function () {
-      var retained_roles_id = $('input[type=checkbox]:checked');
-      if (retained_roles_id.length != names.length) {
-        alert('Mauvais nombre de roles (Manquant : ' + (names.length - retained_roles_id.length) + ')')
-      } else {
-        var retained_roles = [];
-        for (var i = 0; i < retained_roles_id.length; i++) {
-          var id = parseInt(retained_roles_id[i].id.substring(5, retained_roles_id[i].id.length));
-          retained_roles[i] = (roles[id]);
-        }
-        $('#results').html('');
-        for (var i = 0; i < names.length; i++) {
-          var app = '';
-          app += '<tr><td>' + names[i] + '</td>';
-          var role_id = Math.floor(Math.random() * retained_roles.length);
-          app += '<td>' + retained_roles[role_id] + '</td></tr>';
-          retained_roles.splice(role_id, 1);
-          $('#results').append(app);
-        }
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>
