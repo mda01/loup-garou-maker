@@ -1,16 +1,19 @@
 Loup-garou;-6;10;3
-Loup-garou blanc;0;1;0
+Loup-garou blanc;-2;1;0
 GML;-10;1;0
 Infect père des loups;-10;1;0
 Enfant sauvage;-4;1;0
-Assassin;0;1;0
+Assassin;-1;1;0
 Simple Villageois;1;10;3
 Voyante;9;2;1
 Sorcière;4;2;1
 Salvateur;4;1;0
 Cupidon;1;1;1
-Chasseur;2;1;1
+Chasseur;3;1;1
 Ancien;3;1;0
 Montreur d'ours;4;1;0
 Chevalier à l'épée rouillée;5;1;0
-Chamane;4;1;0
+Chamane;2;1;0
+Bouc Emissaire;1;1;0
+Corbeau;2;1;0
+Ange;-1;1;0

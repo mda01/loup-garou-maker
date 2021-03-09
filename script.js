@@ -2,17 +2,8 @@ var names, roles;
 
 $(document).ready(function () {
     var data = $('#participants');
-    data.change(() => {
-        console.log(data);
-        names = data[0].value.split('\n');
-        for (var i = 0; i < names.length; i++) {
-            if (names[i] == '') {
-                names.splice(i, i);
-                i--;
-            }
-        }
-    })
-
+    data.change(get_names);
+    get_names();
 
     jQuery.get('roles.txt', function (data) {
         roles = data.split('\n');
@@ -35,7 +26,6 @@ $('#generate').click(function () {
     var retained_roles = [];
     var roles_count = $('input[type=number]');
     roles_count.each((index, r) => {
-        console.log(r);
         for (var i = 0; i < r.value; i++) {
             //console.log(r.id.substring(5, retained_roles_id[i].id.length));
             retained_roles.push(roles[r.id.substring(5, r.id.length)][0]);
@@ -65,12 +55,24 @@ $('#generate').click(function () {
     }
 });
 
+function get_names() {
+    names = $('#participants')[0].value.split('\n');
+    for (var i = 0; i < names.length; i++) {
+        if (names[i] == '') {
+            names.splice(i, i);
+            i--;
+        }
+    }
+}
+
 function compute_balance() {
     var tot = 0;
     $('input[type=number]').each((id, r) => {
         var i = r.id.substring(5, r.id.length);
         var balance = roles[i][1] * r.value;
-
+        if (i == 0 && r.value > 2) {
+            balance -= (r.value - 2) * 2;
+        }
         $('#val' + i).text(balance);
         if (r.value != 0) {
             $('#bal' + i).show(500);
