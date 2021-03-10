@@ -10,10 +10,12 @@ $(document).ready(function () {
         for (var i = 0; i < roles.length; i++) {
             if (roles[i] != '') {
                 roles[i] = roles[i].split(';');
-                $('#selected_roles').append('<label>' + roles[i][0] + '</label>')
-                $('#selected_roles').append('<input type="number" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '">');
-                $('#selected_roles').append(' <span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span>');
-                $('#selected_roles').append('<br>');
+                var html = "";
+                html+='<div class="row"><div class="col">' + roles[i][0] + '</div>';
+                html+='<div class="col"><input type="number" class="w-50" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '">';
+                html+=' <span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
+                html+='</div>';
+                $('#selected_roles').append(html);
             }
         }
         $('input[type=number]').change((i, r) => {
@@ -58,7 +60,7 @@ $('#generate').click(function () {
 function get_names() {
     names = $('#participants')[0].value.split('\n');
     var allempty = true;
-    for (var name of names){
+    for (var name of names) {
         allempty &&= name == '';
     }
     if (allempty) names = [];
@@ -90,16 +92,16 @@ function compute_balance() {
     total_balance.text(tot);
     total_balance.append(' / ')
     if (Math.abs(tot) > 5) {
-        total_balance.removeClass('green orange');
-        total_balance.addClass('red');
+        total_balance.removeClass('text-success text-warning');
+        total_balance.addClass('text-danger');
     }
     else if (Math.abs(tot) >= 3) {
-        total_balance.removeClass('red green');
-        total_balance.addClass('orange');
+        total_balance.removeClass('text-danger text-success');
+        total_balance.addClass('text-warning');
     }
     else {
-        total_balance.removeClass('red orange');
-        total_balance.addClass('green');
+        total_balance.removeClass('text-danger text-warning');
+        total_balance.addClass('text-success');
         if (tot != 0)
             total_balance.append(' Léger');
     }
