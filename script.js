@@ -11,9 +11,9 @@ $(document).ready(function () {
             if (roles[i] != '') {
                 roles[i] = roles[i].split(';');
                 var html = "";
-                html+='<div class="row"><div class="col">' + roles[i][0] + '</div>';
-                html+='<div class="col"><input type="number" class="w-50" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '">';
-                html+=' <span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
+                html+='<div class="row"><div class="col-xl">' + roles[i][0] + '</div>';
+                html+='<div class="col form-group"><input type="number" class="form-control" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '"></div>';
+                html+=' <div class="col-2"><span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
                 html+='</div>';
                 $('#selected_roles').append(html);
             }
