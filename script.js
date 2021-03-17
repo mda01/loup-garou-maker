@@ -11,10 +11,10 @@ $(document).ready(function () {
             if (roles[i] != '') {
                 roles[i] = roles[i].split(';');
                 var html = "";
-                html+='<div class="row"><div class="col-xl">' + roles[i][0] + '</div>';
-                html+='<div class="col form-group"><input type="number" class="form-control" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '"></div>';
-                html+=' <div class="col-2"><span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
-                html+='</div>';
+                html += '<div class="row"><div class="col-xl">' + roles[i][0] + '</div>';
+                html += '<div class="col form-group"><input type="number" class="form-control" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '"></div>';
+                html += ' <div class="col-2"><span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
+                html += '</div>';
                 $('#selected_roles').append(html);
             }
         }
@@ -116,5 +116,14 @@ function compute_balance() {
     } else {
         total_balance.append('Équilibré');
     }
+
+    // additional lines to print the compo
+    $('#compo').html('');
+    $('input[type=number]').each((id, r) => {
+        var i = r.id.substring(5, r.id.length);
+        var rolename = roles[i][0], count = r.value;
+        if (count > 0)
+            $('#compo').append('<tr><td>' + count + ' ' + rolename + '</td></tr>');
+    });
 }
 
