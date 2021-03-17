@@ -55,6 +55,7 @@ $('#generate').click(function () {
         retained_roles.splice(role_id, 1);
         $('#results').append(app);
     }
+    document.location = "#results";
 });
 
 function get_names() {
