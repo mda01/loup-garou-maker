@@ -2,8 +2,9 @@ var names, roles;
 
 $(document).ready(function () {
     var data = $('#participants');
-    data.change(get_names);
-    get_names();
+    data.keyup(get_names);
+    if (data.val() != '')
+        get_names();
 
     jQuery.get('roles.txt', function (data) {
         roles = data.split('\n');
@@ -46,7 +47,7 @@ $('#generate').click(function () {
         return;
     }
     //var id = parseInt(retained_roles_id[i].id.substring(5, retained_roles_id[i].id.length));
-    $('#results').html('');
+    $('#results').text('');
     for (var i = 0; i < names.length; i++) {
         var app = '';
         app += '<tr><td>' + names[i] + '</td>';
@@ -59,7 +60,7 @@ $('#generate').click(function () {
 });
 
 function get_names() {
-    names = $('#participants')[0].value.split('\n');
+    names = $('#participants').val().split('\n');
     var allempty = true;
     for (var name of names) {
         allempty &&= name == '';
@@ -71,6 +72,8 @@ function get_names() {
             i--;
         }
     }
+    if (names.length > 0)
+        $('#nbJoueurs').text('Nombre de joueur.ses : ' + names.length);
 }
 
 function compute_balance() {
@@ -119,11 +122,14 @@ function compute_balance() {
 
     // additional lines to print the compo
     $('#compo').html('');
+    tot = 0;
     $('input[type=number]').each((id, r) => {
         var i = r.id.substring(5, r.id.length);
         var rolename = roles[i][0], count = r.value;
+        tot += parseInt(count);
         if (count > 0)
             $('#compo').append('<tr><td>' + count + ' ' + rolename + '</td></tr>');
+        $('#nbRoles').text('Nombre de rôles : ' + tot);
     });
 }
 
