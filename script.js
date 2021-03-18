@@ -1,41 +1,43 @@
-var names, roles;
+var names = [], roles; // static and are used in most of functions
 
+// wait for the page to load
 $(document).ready(function () {
     var data = $('#participants');
-    data.keyup(get_names);
-    if (data.val() != '')
+    data.keyup(get_names); // update names when typing names
+    if (data.val() != '') // used in case of page reload and the names are already typed
         get_names();
 
-    jQuery.get('roles.txt', function (data) {
+    jQuery.get('roles.txt', function (data) { // load roles from the server
         roles = data.split('\n');
         for (var i = 0; i < roles.length; i++) {
             if (roles[i] != '') {
-                roles[i] = roles[i].split(';');
+                roles[i] = roles[i].split(';'); // change role into a list containing: Role name; balance; maximum; default count
                 var html = "";
                 html += '<div class="row"><div class="col-xl">' + roles[i][0] + '</div>';
                 html += '<div class="col form-group"><input type="number" class="form-control" id="role_' + i + '" value="' + roles[i][3] + '" min="0" max="' + roles[i][2] + '"></div>';
                 html += ' <div class="col-2"><span id="bal' + i + '" class="balance">(<span id="val' + i + '"></span>)</span></div>';
                 html += '</div>';
-                $('#selected_roles').append(html);
+                $('#selected_roles').append(html); // add roles in the correct section
             }
         }
-        $('input[type=number]').change((i, r) => {
+        $('input[type=number]').change((i, r) => { // if the inputs change, compute the balance of the game
             compute_balance();
+            show_compo();
+            var retained_roles = get_roles();
+            if (check_nb(retained_roles)) { // new feature: generate when the number of roles changes if there is enough roles (good for mobiles)
+                generate(retained_roles);
+            }
         });
-        compute_balance();
+        compute_balance(); // compute balance a first time
+        show_compo(); // shows the compo at the bottom of the page
     });
 });
 $('#generate').click(function () {
-    var retained_roles = [];
-    var roles_count = $('input[type=number]');
-    roles_count.each((index, r) => {
-        for (var i = 0; i < r.value; i++) {
-            //console.log(r.id.substring(5, retained_roles_id[i].id.length));
-            retained_roles.push(roles[r.id.substring(5, r.id.length)][0]);
-        }
-    })
-
-    if (retained_roles.length != names.length) {
+    var retained_roles = get_roles();
+    if (check_nb(retained_roles)) {
+        generate(retained_roles);
+        document.location = "#goToResults";
+    } else { // if the number of roles is incorrect, notify the user
         var diff = retained_roles.length - names.length;
         var s = 'Nombre de rôles incorrect ! Il en faut ' + Math.abs(diff) + ' ';
         if (diff < 0) {
@@ -43,10 +45,27 @@ $('#generate').click(function () {
         } else {
             s += 'de moins !';
         }
-        alert(s);
-        return;
+        alert(s); // I may use bootstrap alerts later
     }
-    //var id = parseInt(retained_roles_id[i].id.substring(5, retained_roles_id[i].id.length));
+});
+
+function get_roles() {
+    var retained_roles = [];
+    var roles_count = $('input[type=number]');
+    roles_count.each((index, r) => {
+        for (var i = 0; i < r.value; i++) {
+            //console.log(r.id.substring(5, retained_roles_id[i].id.length));
+            retained_roles.push(roles[r.id.substring(5, r.id.length)][0]);
+        }
+    });
+    return retained_roles;
+}
+
+function check_nb(retained_roles) {
+    return retained_roles.length == names.length;
+}
+
+function generate(retained_roles) {
     $('#results').text('');
     for (var i = 0; i < names.length; i++) {
         var app = '';
@@ -56,8 +75,7 @@ $('#generate').click(function () {
         retained_roles.splice(role_id, 1);
         $('#results').append(app);
     }
-    document.location = "#results";
-});
+}
 
 function get_names() {
     names = $('#participants').val().split('\n');
@@ -76,6 +94,9 @@ function get_names() {
         $('#nbJoueurs').text('Nombre de joueur.ses : ' + names.length);
 }
 
+/**
+ * Computes the balance and displays it using a color code
+ */
 function compute_balance() {
     var tot = 0;
     $('input[type=number]').each((id, r) => {
@@ -119,8 +140,12 @@ function compute_balance() {
     } else {
         total_balance.append('Équilibré');
     }
+}
 
-    // additional lines to print the compo
+/**
+ * Creates a small table at the bottom showing the current composition
+ */
+function show_compo() {
     $('#compo').html('');
     tot = 0;
     $('input[type=number]').each((id, r) => {
@@ -132,4 +157,3 @@ function compute_balance() {
         $('#nbRoles').text('Nombre de rôles : ' + tot);
     });
 }
-
