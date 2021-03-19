@@ -119,8 +119,8 @@ function compute_balance() {
     $('input[type=number]').each((id, r) => {
         var i = r.id.substring(5, r.id.length);
         var balance = roles[i][1] * r.value;
-        if (i == 0 && r.value > 2) {
-            balance -= (r.value - 2) * 2;
+        if (i == 0 && r.value > 1) {
+            balance -= (r.value - 1) * 2;
         }
         $('#val' + i).text(balance);
         if (r.value != 0) {

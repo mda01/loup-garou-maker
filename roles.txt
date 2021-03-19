@@ -9,11 +9,14 @@ Voyante;9;2;1
 Sorcière;4;2;1
 Salvateur;4;1;0
 Cupidon;1;1;1
-Chasseur;3;1;1
+Chasseur;2;1;1
 Ancien;3;1;0
+Renard;6;1;0
 Montreur d'ours;4;1;0
-Chevalier à l'épée rouillée;5;1;0
 Chamane;2;1;0
-Bouc Emissaire;1;1;0
+Chevalier à l'épée rouillée;5;1;0
+Villageois-Villageois;4;1;0
 Corbeau;2;1;0
+Bouc Emissaire;1;1;0
 Ange;-1;1;0
+Joueur de flûte;-1;1;0
