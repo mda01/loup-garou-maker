@@ -32,6 +32,7 @@ $(document).ready(function () {
         show_compo(); // shows the compo at the bottom of the page
     });
 });
+
 $('#generate').click(function () {
     var retained_roles = get_roles();
     if (check_nb(retained_roles)) {
@@ -49,6 +50,10 @@ $('#generate').click(function () {
     }
 });
 
+/**
+ * Get the values of the number input to make a list of the retained roles
+ * @returns 
+ */
 function get_roles() {
     var retained_roles = [];
     var roles_count = $('input[type=number]');
@@ -61,10 +66,19 @@ function get_roles() {
     return retained_roles;
 }
 
+/**
+ * Checks if the role number matches the number of players
+ * @param {List<String>} retained_roles 
+ * @returns 
+ */
 function check_nb(retained_roles) {
     return retained_roles.length == names.length;
 }
 
+/**
+ * Modify the result tbody to add the roles and the associated names
+ * @param {List<String>} retained_roles 
+ */
 function generate(retained_roles) {
     $('#results').text('');
     for (var i = 0; i < names.length; i++) {
@@ -77,6 +91,9 @@ function generate(retained_roles) {
     }
 }
 
+/**
+ * Get the content of the textarea and make a list (static)
+ */
 function get_names() {
     names = $('#participants').val().split('\n');
     var allempty = true;
